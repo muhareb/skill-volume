@@ -93,8 +93,7 @@ class VolumeSkill(MycroftSkill):
                                   data={"percent": vol/100.0}))
 
     @intent_handler(IntentBuilder("SetVolume").require(
-        "Volume").require("Level").optionally(
-        "Increase").optionally("Decrease"))
+        "Volume").require("Level"))
     def handle_set_volume(self, message):
         level = self.__get_volume_level(message, self.mixer.getvolume()[0])
         self._setvolume(self.__level_to_volume(level))
