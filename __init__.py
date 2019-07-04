@@ -22,6 +22,7 @@ from mycroft.messagebus.message import Message
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util import play_wav
 from mycroft.util.parse import extract_number
+from mycroft.util.format import pronounce_number
 
 
 class VolumeSkill(MycroftSkill):
@@ -121,7 +122,7 @@ class VolumeSkill(MycroftSkill):
         else:
             if not changed:
                 dialog = 'already.max.volume'
-            self.speak_dialog(dialog, data={'volume': code})
+            self.speak_dialog(dialog, data={'volume': pronounce_number(code)})
 
     @intent_handler(IntentBuilder("IncreaseVolume").require(
         "Volume").require("Increase"))
@@ -154,8 +155,7 @@ class VolumeSkill(MycroftSkill):
 
         speak_message = message.data.get('speak_message', True)
         if speak_message:
-            self.speak_dialog('reset.volume',
-                              data={'volume': self.settings["default_level"]})
+            self.speak_dialog('reset.volume')
 
     def __volume_to_level(self, volume):
         """
